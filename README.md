@@ -1,5 +1,3 @@
-# Space-Shooter
-2D Space Shooter with single player and co-op game mode. 
-Use WASD for movement, Space- shooting, R - restart, P - pause, Esc- main menu.
-For co-op game mode. Movement for 2nd player: O-up, K-left, L- down, ; - right, Left Shoft for shooting.
-Note. Ready for build to Android, PC and Mac platform. Tested on all of this devices.
+# Space-Shooter (Windows, Android)
+
+2D Space Shooter. Try to avoid collision with enemies and destroy them by your weapon. You can also pickup powerups. WASD for movement Space- Fire P - Pause Escape - Main Menu R - Restart For 2nd player: OKL; for movement (like WASD) Right Shoft - fire Note: For android available only single player mode, add fire button and joystick for control the player.
