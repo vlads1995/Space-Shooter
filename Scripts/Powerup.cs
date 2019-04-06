@@ -1,62 +1,46 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Powerup : MonoBehaviour
 {
-    [SerializeField]
-    private float _speed = 3.0f;
-    [SerializeField]
-    private int powerupID; // 0- triple, 1- speed, 2- shield
+    private const float Speed = 3.0f;
 
     [SerializeField]
+    private int powerupID; // 0- triple, 1- speed, 2- shield
+    [SerializeField]
     private AudioClip _clip;
-    // Update is called once per frame
-    void Update()
+
+    private void Update()
     {
-        transform.Translate(Vector3.down * _speed * Time.deltaTime );
+        transform.Translate(Vector3.down * Speed * Time.deltaTime );
         if (transform.position.y <= - 6f)
         {
             Destroy(this.gameObject);
         }
-
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-       if (other.tag == "Player")
-       {
-          
-           Player player = other.GetComponent<Player>();
-           AudioSource.PlayClipAtPoint(_clip, Camera.main.transform.position, 1f);
+        if (other.tag == "Player")
+        {
+            var player = other.GetComponent<Player>();
+            AudioSource.PlayClipAtPoint(_clip, Camera.main.transform.position, 1f);
 
             if (player != null)
-           {
-                
-                if (powerupID == 0)
+            {
+                switch (powerupID)
                 {
-                    player.TripleShotPowerUpOn();
+                    case 0:
+                        player.TripleShotPowerUpOn();
+                        break;
+                    case 1:
+                        player.SpeedPowerUpOn();
+                        break;
+                    case 2:
+                        player.ShieldPowerUpOn();
+                        break;
                 }
-
-                if (powerupID == 1)
-                {
-                    player.SpeedPowerUpOn();
-                }
-
-                if (powerupID == 2)
-                {
-                    player.ShieldPowerUpOn();
-                }
-                
-
             }
-
-          
-           Destroy(this.gameObject);
-
-       }
-
+            Destroy(this.gameObject);
+        }
     }
-
-   
 }

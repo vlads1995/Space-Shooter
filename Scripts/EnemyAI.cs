@@ -1,72 +1,56 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
-{ 
+{
+    private const float Speed = 4.5f;
+
+    public UIManager uiManager;
+
     [SerializeField]
-    private GameObject _EnemyDestroyAnimation;
-    private float _speed = 4.5f;
-    // Start is called before the first frame update
+    private GameObject _enemyDestroyAnimation;
     [SerializeField]
     private AudioClip _clip;
-  
-    public UIManager _uiManager;   
-   
-    void Start()
+
+    private void Start()
     {
-
-       _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
-        
-        
-
+       uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-                
-        transform.Translate(Vector3.down * _speed * Time.deltaTime);
+        transform.Translate(Vector3.down * Speed * Time.deltaTime);
+        const float horizontalBoundaryValue = 8f;
+        const float verticalBoundaryValue = 7f;
+        const float outOfScreenYPos = -6.5f;
 
-        if (transform.position.y <= -6.5f)
+        if (transform.position.y <= outOfScreenYPos)
         {
-            transform.position = new Vector3(Random.Range(-8.0f, 8.0f), 7.0f, 0);
-
+            transform.position = new Vector3(Random.Range(-horizontalBoundaryValue, horizontalBoundaryValue), verticalBoundaryValue, 0);
         }
-  
     }
-
-    
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Laser")
         {
-           
-           
-            Instantiate(_EnemyDestroyAnimation, transform.position, Quaternion.identity);
+            Instantiate(_enemyDestroyAnimation, transform.position, Quaternion.identity);
             Destroy(other.gameObject);
-            _uiManager.UpdateScore();
+            uiManager.UpdateScore();
             AudioSource.PlayClipAtPoint(_clip, Camera.main.transform.position, 1f);
             Destroy(this.gameObject);
         }
+
         if (other.tag == "Player")
         {
-            Player player = other.GetComponent<Player>();
+            var player = other.GetComponent<Player>();
             if (player != null)
             {
                 player.Damage();
             }
-          
-            
-            Instantiate(_EnemyDestroyAnimation, transform.position, Quaternion.identity);
-            _uiManager.UpdateScore();
+            Instantiate(_enemyDestroyAnimation, transform.position, Quaternion.identity);
+            uiManager.UpdateScore();
             AudioSource.PlayClipAtPoint(_clip,Camera.main.transform.position,1f);
-            
             Destroy(this.gameObject);
         }
     }
-
-     
-
 }

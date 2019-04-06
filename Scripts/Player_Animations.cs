@@ -1,22 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Player_Animations : MonoBehaviour
 {
     private Animator _anim;
-    private Player player;
-    void Start()
+    private Player _player;
+
+    private void Start()
     {
         _anim = GetComponent<Animator>();
-        player =  GetComponent<Player>();
+        _player =  GetComponent<Player>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-
-        if (player.isPlayerOne == true)
+        if (_player.isPlayerOne == true)
         {
             if (Input.GetKeyDown(KeyCode.A))
             {
@@ -43,7 +40,7 @@ public class Player_Animations : MonoBehaviour
             }
         }
 
-        if (player.isPlayerTwo == true)
+        if (_player.isPlayerTwo == true)
         {
             if (Input.GetKeyDown(KeyCode.K))
             {
